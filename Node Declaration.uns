@@ -1,0 +1,5 @@
+node [NodeName] {
+    input: [InputParameters];
+    output: [OutputParameters];
+    process: [Logic or Equations];
+}
