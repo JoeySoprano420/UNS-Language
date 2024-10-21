@@ -1,0 +1,10 @@
+# Define variable x ($x$) > Initialize it to 10
+$x$ := 10 #
+
+# Check if x is greater than 5 :IS:  #
+$x :IS: [> 5] #
+
+# If x is greater than 5, multiply by 2
+$x$ := $x * 2$
+
+# Finish process :COMPLETE: #
