@@ -89,3 +89,100 @@ Token* lexer_next_token(Lexer* lexer) {
 
     return create_token(TOKEN_EOF, "");
 }
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+
+typedef enum {
+    TOKEN_IDENTIFIER,
+    TOKEN_NUMBER,
+    TOKEN_STRING,
+    TOKEN_OPERATOR,
+    TOKEN_KEYWORD,
+    TOKEN_SEMICOLON,
+    TOKEN_LBRACE,
+    TOKEN_RBRACE,
+    TOKEN_LPAREN,
+    TOKEN_RPAREN,
+    TOKEN_COMMA,
+    TOKEN_EOF,
+    TOKEN_INVALID
+} TokenType;
+
+typedef struct {
+    TokenType type;
+    char value[256];
+} Token;
+
+Token* lexer(const char* input) {
+    Token* tokens = malloc(sizeof(Token) * 1024); // Simple token array
+    int token_count = 0;
+    
+    for (int i = 0; input[i] != '\0';) {
+        if (isspace(input[i])) {
+            i++;
+            continue;
+        }
+        
+        if (isalpha(input[i])) { // Identifier or Keyword
+            int j = 0;
+            while (isalnum(input[i]) || input[i] == '_') {
+                tokens[token_count].value[j++] = input[i++];
+            }
+            tokens[token_count].value[j] = '\0';
+            tokens[token_count].type = TOKEN_IDENTIFIER; // For simplicity, treat all as identifiers
+            token_count++;
+            continue;
+        }
+
+        if (isdigit(input[i])) { // Number
+            int j = 0;
+            while (isdigit(input[i])) {
+                tokens[token_count].value[j++] = input[i++];
+            }
+            tokens[token_count].value[j] = '\0';
+            tokens[token_count].type = TOKEN_NUMBER;
+            token_count++;
+            continue;
+        }
+
+        if (input[i] == '"') { // String
+            i++;
+            int j = 0;
+            while (input[i] != '"' && input[i] != '\0') {
+                tokens[token_count].value[j++] = input[i++];
+            }
+            tokens[token_count].value[j] = '\0';
+            tokens[token_count].type = TOKEN_STRING;
+            token_count++;
+            if (input[i] == '"') i++;
+            continue;
+        }
+
+        if (strchr("+-*/();{}.,", input[i])) { // Operators and punctuation
+            tokens[token_count].value[0] = input[i];
+            tokens[token_count].value[1] = '\0';
+            tokens[token_count].type = (input[i] == ';') ? TOKEN_SEMICOLON :
+                                       (input[i] == '{') ? TOKEN_LBRACE :
+                                       (input[i] == '}') ? TOKEN_RBRACE :
+                                       (input[i] == '(') ? TOKEN_LPAREN :
+                                       (input[i] == ')') ? TOKEN_RPAREN :
+                                       TOKEN_OPERATOR;
+            token_count++;
+            i++;
+            continue;
+        }
+
+        // Handle invalid tokens
+        tokens[token_count].type = TOKEN_INVALID;
+        tokens[token_count].value[0] = input[i];
+        tokens[token_count].value[1] = '\0';
+        token_count++;
+        i++;
+    }
+    
+    tokens[token_count].type = TOKEN_EOF; // End of file token
+    return tokens;
+}
