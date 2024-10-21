@@ -1,0 +1,71 @@
+# Universal NodeScript Semantics
+
+## General Semantics
+- Each statement in UNS corresponds to a specific action or operation that the program will execute.
+- Variables are defined using the syntax `identifier := expression` and can hold values of types: Number, String, Boolean, or Custom Type defined via Generics.
+- All identifiers (variables, functions, modules) are case-sensitive.
+
+## Module Semantics
+- A module encapsulates related nodes and functions, promoting better organization and avoiding naming conflicts.
+- Variables defined within a module are scoped locally unless explicitly exported.
+
+## Node Semantics
+- Nodes represent reusable functions or operations. They can accept parameters and return values.
+- A node's execution can be triggered by calling it with specific parameters, leading to a response defined within its semantics.
+
+## Generic Semantics
+- Generics allow for type parameters in nodes, enabling type-safe operations.
+- When a generic node is invoked, the actual types of the parameters must match the defined type parameters.
+
+## Assignment Semantics
+- The assignment statement `x := expression` evaluates the expression and assigns its value to the variable `x`.
+- The variable type is inferred from the assigned expression.
+
+## Condition Semantics
+- Conditional statements determine which branch of code will be executed based on the evaluation of the condition.
+- The condition is evaluated as a Boolean expression; if true, the "then" block executes; if false, the "else" block (if present) executes.
+
+## Loop Semantics
+- The `while` statement repeatedly executes its block while the condition evaluates to true.
+- If the condition is false initially, the block does not execute.
+
+## Function Call Semantics
+- Calling a node involves passing parameters that must match the expected types.
+- The node's process is executed, and control returns to the calling statement upon completion.
+
+## Asynchronous Semantics
+- The `async` block allows code to run without blocking the main thread.
+- The `await` statement pauses execution until the awaited asynchronous operation completes.
+
+## Parallel Execution Semantics
+- The `parallel` block allows multiple statements to execute concurrently.
+- Each statement within the block runs independently, and execution order is not guaranteed.
+
+## Error Handling Semantics
+- The `scan` statement checks for errors in specified nodes.
+- Errors are categorized by type, and corrective actions can be specified in the error block.
+
+## Memory Management Semantics
+- Memory allocation is dynamic; variables and data structures occupy memory as defined in their respective nodes.
+- Garbage collection may be employed to reclaim unused memory, especially after node execution.
+
+## Export and Import Semantics
+- The `export` statement allows specific data or modules to be made available for use in other modules.
+- The `import` statement brings in exported entities from other modules, allowing access to their functionalities.
+
+## Data and Type Semantics
+- UNS supports primitive types (Number, String, Boolean) and allows the creation of custom types via Generics.
+- Data operations must respect type constraints defined by the language.
+
+## Variable Scope
+- Variables defined within a node or module are scoped to that context unless explicitly declared as global.
+- The scope of variables affects their accessibility and lifecycle.
+
+## Example of Node Semantics
+For the node definition:
+```plaintext
+node $CalculateAverage* {
+    input: $value1, $value2, $value3*
+    output: $average*
+    process: $average = ($value1 + $value2 + $value3) / 3*
+}
