@@ -1,0 +1,114 @@
+// Universal NodeScript Grammar with Generics, Modules, and Concurrency
+// This grammar defines the syntax for the Universal NodeScript language.
+
+program         ::= module* statement*
+
+module          ::= 'module' identifier '{' module_body '}'
+
+module_body     ::= declaration_statement* 
+
+declaration_statement ::= block_statement
+                 | assignment_statement
+                 | call_statement
+                 | condition_statement
+                 | loop_statement
+                 | generic_declaration
+                 | import_statement
+                 | export_statement
+                 | transform_statement
+                 | checkpoint_statement
+                 | error_handling_statement
+                 | action_statement
+                 | comment_statement
+
+generic_declaration ::= 'node' identifier '<' type_parameter_list '>' '*' '{' input_output_block '}'
+
+type_parameter_list ::= identifier (',' identifier)*
+
+block_statement  ::= '#' 'Begin process' block_body '#'
+block_body      ::= block_item*
+block_item      ::= statement | transition_statement
+
+transition_statement ::= '$' identifier '$' '>' expression ('OR' expression)* ':' 'IS:' condition_statement
+
+assignment_statement ::= identifier ':=' expression '#'
+
+call_statement  ::= 'call' identifier '*' '{' parameter_list '}' response_section
+
+response_section ::= 'response {' action_statement '}'
+
+condition_statement ::= 'if' '(' condition_expression ')' '{' statement* '}' ( 'else' '{' statement* '}' )?
+
+loop_statement   ::= 'while' '(' condition_expression ')' '{' statement* '}'
+
+import_statement  ::= 'import' identifier* 
+
+export_statement  ::= 'export' data_identifier 'as' file_type 'with' metadata ';'
+
+transform_statement ::= 'transform' data_identifier '*' '{' condition_block '}'
+
+checkpoint_statement ::= 'checkpoint' state_identifier 'at' node_identifier ';'
+
+error_handling_statement ::= 'scan' node_identifier 'for' error_block
+
+error_block      ::= 'errors* {' error_condition '}' 
+
+error_condition  ::= 'if' error_found '{' error_type ';' error_explanation ';' healing_process ';' '}'
+
+action_statement  ::= 'link' string_identifier '{' connection_list '}'
+
+connection_list   ::= 'connect:' identifier (',' identifier)*
+
+comment_statement  ::= '#' text_comment
+
+condition_expression ::= variable 'IS' condition*
+
+condition        ::= condition_operator condition_value
+
+condition_operator ::= '>' | '<' | '>=' | '<=' | '==' | '!='
+
+variable         ::= '$' identifier
+
+expression       ::= arithmetic_expression | boolean_expression | function_call | identifier | constant
+
+arithmetic_expression ::= expression ('+' | '-' | '*' | '/') expression
+
+boolean_expression ::= expression ('AND' | 'OR') expression
+
+function_call     ::= '$' identifier '*' '(' parameter_list ')'
+
+parameter_list    ::= expression (',' expression)*
+
+constant         ::= number | string | boolean_value
+
+number           ::= [0-9]+
+
+string           ::= '"' text '"' // Text in quotes
+
+boolean_value    ::= 'true' | 'false'
+
+data_identifier   ::= '$Data*'
+
+file_type       ::= identifier
+
+metadata        ::= identifier (',' identifier)*
+
+identifier      ::= [a-zA-Z_][a-zA-Z0-9_]*
+
+text_comment     ::= [^#]* // everything except the '#' character
+
+node_identifier   ::= '$NodeName*'
+
+state_identifier  ::= '$State*'
+
+data_chunk      ::= 'DataChunk' [0-9]+
+
+string_identifier ::= '$String*'
+
+// Concurrency constructs
+async_statement  ::= 'async' '{' statement* '}'
+
+await_statement   ::= 'await' expression ';'
+
+parallel_statement ::= 'parallel' '{' statement* '}'
+
