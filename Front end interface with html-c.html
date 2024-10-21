@@ -1,0 +1,29 @@
+<html>
+<head>
+    <title>Universal NodeScript Frontend</title>
+</head>
+<body>
+    <h1>Universal NodeScript Interface</h1>
+
+    <!-- HTML interface for UNS -->
+    <form action="/compile" method="POST">
+        <label for="codeInput">Enter Your UNS Code:</label><br>
+        <textarea id="codeInput" name="code" rows="20" cols="80"></textarea><br>
+        <input type="submit" value="Compile and Run">
+    </form>
+
+    <!-- Embedded C code to handle compilation -->
+    <script>
+        /* 
+        Hypothetical embedded C code within HTML-C 
+        to handle the compilation request 
+        */
+        #include <stdio.h>
+        void compileAndRun() {
+            // Compilation logic written in C
+            printf("Compiling UNS Code...\n");
+            // Call backend ML-Plus logic for compilation
+        }
+    </script>
+</body>
+</html>
