@@ -1362,3 +1362,68 @@ async {
 ### Summary
 
 The semantics defined above provide a robust framework for the Universal NodeScript language, detailing how each component behaves and interacts during execution. By adhering to these semantic rules, the language can offer a clear and predictable environment for developers to create applications, ensuring type safety, modularity, and efficient execution.
+
+### Function Call Semantics (Continued)
+- Calling a node involves specifying the node's name and providing the required parameters within parentheses.
+- The parameters passed must correspond to the expected types defined in the node's generic declaration if applicable.
+- The response from the node call can be used in subsequent expressions or assignments.
+
+### Concurrency Semantics
+- The `async` statement allows multiple statements to execute concurrently without blocking the main thread.
+- The `await` statement pauses the execution of the current block until the awaited expression resolves, allowing asynchronous operations to complete.
+- The `parallel` statement allows for the simultaneous execution of multiple statements, enhancing performance by leveraging concurrent processing.
+
+### Error Handling Semantics
+- The `scan` statement is used to check for errors during node execution.
+- The `error_block` defines conditions that trigger error handling, including the type of error, explanations, and healing processes to recover from the error.
+- This promotes robustness and stability within the application by ensuring that errors are handled gracefully.
+
+### Node and Module Interactions
+- Nodes can be exported from a module using the `export` statement, making them available for use in other modules.
+- Imports are handled via the `import` statement, allowing modules to access functionality defined elsewhere.
+- This modular approach fosters code reuse and organization, enabling larger applications to be built efficiently.
+
+### Code Example
+Here's an example demonstrating the use of some of the constructs defined in the grammar:
+
+```plaintext
+module MathUtils {
+    generic node Add<T, U> * {
+        input_output_block {
+            connect: $Input1, $Input2
+        }
+        response {
+            call $Result * { 
+                parameter_list: $Input1 + $Input2 
+            }
+        }
+    }
+}
+
+module Main {
+    import MathUtils;
+
+    async {
+        let x := 5;
+        let y := 10;
+
+        call Add<Number, Number> * { 
+            parameter_list: x, y 
+        } response {
+            link "$Result" { connect: $Sum }
+        }
+    }
+
+    checkpoint $CurrentState at $NodeName*;
+    scan $NodeName* for errors* {
+        if error_found {
+            error_type: "Computation Error";
+            error_explanation: "Failed to compute sum.";
+            healing_process: "Retry the operation.";
+        }
+    }
+}
+```
+
+### Summary
+The Universal NodeScript language, with its grammar and semantics, provides a powerful framework for building modular and concurrent applications. By leveraging concepts like generics, error handling, and concurrency constructs, developers can create flexible, reusable, and robust code structures that enhance productivity and maintainability. This language aims to address the needs of modern software development, promoting clean syntax and clear semantics for effective programming.
