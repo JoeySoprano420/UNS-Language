@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Node Editor</title>
+    <style>
+        /* Basic styling for nodes and connections */
+        .node {
+            border: 1px solid #000;
+            padding: 10px;
+            margin: 5px;
+            display: inline-block;
+            cursor: pointer;
+        }
+        .connection {
+            stroke: #000;
+            stroke-width: 2;
+        }
+    </style>
+</head>
+<body>
+    <div id="node-container"></div>
+    <button onclick="addNode('ML')">Add ML Node</button>
+    <button onclick="addNode('HTML')">Add HTML Node</button>
+
+    <script>
+        const nodes = [];
+
+        function addNode(type) {
+            const node = document.createElement('div');
+            node.className = 'node';
+            node.innerHTML = `${type} Node`;
+            node.onclick = () => { /* Logic for selecting a node */ };
+            document.getElementById('node-container').appendChild(node);
+            nodes.push(node);
+        }
+
+        function connectNodes(nodeA, nodeB) {
+            // Logic to visually connect two nodes
+        }
+    </script>
+</body>
+</html>
