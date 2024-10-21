@@ -1,0 +1,216 @@
+name: Universal NodeScript Build
+
+on: [push]
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 5
+
+    steps:
+    - uses: actions/checkout@v4
+    
+    # Setup for Python 3.10 environment
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v3
+      with:
+        python-version: '3.10'
+
+    # Adding Conda to the system path for dependency management
+    - name: Add conda to system path
+      run: |
+        # Add the conda bin directory to the PATH
+        echo $CONDA/bin >> $GITHUB_PATH
+
+    # Installing dependencies for Universal NodeScript
+    - name: Install UNS dependencies
+      run: |
+        # Install dependencies from a conda environment file specific to UNS
+        conda env update --file environment.yml --name base
+        # Install any additional UNS-related libraries here (if needed)
+        conda install -c conda-forge nodejs  # Example: install Node.js if relevant for UNS
+        conda install -c conda-forge universal-nodescript  # Example: install UNS package
+
+    # Linting with flake8 (syntax and style checker)
+    - name: Lint with flake8
+      run: |
+        conda install flake8
+        # Perform linting to check for Python syntax errors or undefined names in UNS scripts
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        # Treat all errors as warnings (exit-zero) to avoid stopping the build
+        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+
+    # Running tests using pytest
+    - name: Test with pytest
+      run: |
+        conda install pytest
+        pytest
+
+    # Additional step for validating UNS syntax and execution
+    - name: Validate Universal NodeScript Syntax
+      run: |
+        # Command or script to run UNS-specific validation checks
+        # This could involve parsing UNS scripts, validating syntax, or running unit tests
+        uns-validate scripts/  # Example command, replace with actual UNS syntax check
+
+    # Running UNS scripts as part of the pipeline (if necessary)
+    - name: Execute UNS Scripts
+      run: |
+        # Command to run UNS scripts in the environment
+        uns-run scripts/  # Replace with actual UNS execution command
+
+
+name: Universal NodeScript Build on Windows
+
+on: [push]
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    strategy:
+      max-parallel: 5
+
+    steps:
+    # Step to checkout the repository
+    - uses: actions/checkout@v4
+    
+    # Set up Python 3.10 on Windows
+    - name: Set up Python 3.10 on Windows
+      uses: actions/setup-python@v3
+      with:
+        python-version: '3.10'
+    
+    # Adding Conda to the system path (for managing dependencies)
+    - name: Install Miniconda on Windows
+      shell: bash
+      run: |
+        Invoke-WebRequest -Uri https://repo.anaconda.com/miniconda/Miniconda3-latest-Windows-x86_64.exe -OutFile MinicondaInstaller.exe
+        Start-Process -Wait MinicondaInstaller.exe -ArgumentList "/InstallationType=JustMe", "/AddToPath=1", "/RegisterPython=1", "/S", "/D=%UserProfile%\Miniconda3"
+        $env:Path += ";$env:UserProfile\Miniconda3\condabin"
+    
+    # Installing dependencies from environment.yml
+    - name: Install UNS dependencies with Conda
+      shell: bash
+      run: |
+        conda init bash
+        conda env update --file environment.yml --name base
+        conda install -c conda-forge universal-nodescript
+        conda install -c conda-forge nodejs
+
+    # Lint with flake8 to check for Python syntax errors
+    - name: Lint with flake8
+      run: |
+        conda install flake8
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+
+    # Custom Logic: Line-by-line Refurbishing with Error Handling
+    - name: Refurbish Line-by-Line Execution
+      run: |
+        $scriptPath = "path/to/universal-nodescript-file.uns"
+        $lines = Get-Content $scriptPath  # Read the script file line by line
+        foreach ($line in $lines) {
+            $resolved = $false
+            while (-not $resolved) {
+                try {
+                    # Execute current line (replace this with the actual UNS execution command)
+                    uns-execute-line $line
+                    $resolved = $true
+                } catch {
+                    # Handle the error, fix the line if necessary
+                    Write-Host "Error in line: $line"
+                    Write-Host "Attempting to resolve the issue..."
+                    # Logic to attempt to fix the issue automatically
+                    $line = refurbish-line $line  # Hypothetical function to fix the line
+                }
+            }
+        }
+
+    # Running Tests for Universal NodeScript
+    - name: Test Universal NodeScript with pytest
+      run: |
+        conda install pytest
+        pytest
+
+    # UNS Syntax Validation (Optional, if needed)
+    - name: Validate Universal NodeScript Syntax
+      run: |
+        uns-validate scripts/
+
+name: Universal NodeScript Build on Windows
+
+on: [push]
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    strategy:
+      max-parallel: 5
+
+    steps:
+    # Step to checkout the repository
+    - uses: actions/checkout@v4
+    
+    # Set up Python 3.10 on Windows
+    - name: Set up Python 3.10 on Windows
+      uses: actions/setup-python@v3
+      with:
+        python-version: '3.10'
+    
+    # Adding Conda to the system path (for managing dependencies)
+    - name: Install Miniconda on Windows
+      shell: bash
+      run: |
+        Invoke-WebRequest -Uri https://repo.anaconda.com/miniconda/Miniconda3-latest-Windows-x86_64.exe -OutFile MinicondaInstaller.exe
+        Start-Process -Wait MinicondaInstaller.exe -ArgumentList "/InstallationType=JustMe", "/AddToPath=1", "/RegisterPython=1", "/S", "/D=%UserProfile%\Miniconda3"
+        $env:Path += ";$env:UserProfile\Miniconda3\condabin"
+    
+    # Installing dependencies from environment.yml
+    - name: Install UNS dependencies with Conda
+      shell: bash
+      run: |
+        conda init bash
+        conda env update --file environment.yml --name base
+        conda install -c conda-forge universal-nodescript
+        conda install -c conda-forge nodejs
+
+    # Lint with flake8 to check for Python syntax errors
+    - name: Lint with flake8
+      run: |
+        conda install flake8
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+
+    # Custom Logic: Line-by-line Refurbishing with Error Handling
+    - name: Refurbish Line-by-Line Execution
+      run: |
+        $scriptPath = "path/to/universal-nodescript-file.uns"
+        $lines = Get-Content $scriptPath  # Read the script file line by line
+        foreach ($line in $lines) {
+            $resolved = $false
+            while (-not $resolved) {
+                try {
+                    # Execute current line (replace this with the actual UNS execution command)
+                    uns-execute-line $line
+                    $resolved = $true
+                } catch {
+                    # Handle the error, fix the line if necessary
+                    Write-Host "Error in line: $line"
+                    Write-Host "Attempting to resolve the issue..."
+                    # Logic to attempt to fix the issue automatically
+                    $line = refurbish-line $line  # Hypothetical function to fix the line
+                }
+            }
+        }
+
+    # Running Tests for Universal NodeScript
+    - name: Test Universal NodeScript with pytest
+      run: |
+        conda install pytest
+        pytest
+
+    # UNS Syntax Validation (Optional, if needed)
+    - name: Validate Universal NodeScript Syntax
+      run: |
+        uns-validate scripts/
