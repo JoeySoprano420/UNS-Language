@@ -249,3 +249,40 @@ async {
     call $FetchData* { parameters: $source* }
     await $dataReady;
 }
+
+module MathUtils {
+    generic node Add<T, U> * {
+        input_output_block {
+            connect: $Input1, $Input2
+        }
+        response {
+            call $Result * { 
+                parameter_list: $Input1 + $Input2 
+            }
+        }
+    }
+}
+
+module Main {
+    import MathUtils;
+
+    async {
+        let x := 5;
+        let y := 10;
+
+        call Add<Number, Number> * { 
+            parameter_list: x, y 
+        } response {
+            link "$Result" { connect: $Sum }
+        }
+    }
+
+    checkpoint $CurrentState at $NodeName*;
+    scan $NodeName* for errors* {
+        if error_found {
+            error_type: "Computation Error";
+            error_explanation: "Failed to compute sum.";
+            healing_process: "Retry the operation.";
+        }
+    }
+}
