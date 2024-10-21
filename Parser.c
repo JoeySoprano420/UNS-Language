@@ -171,3 +171,98 @@ ASTNode* parse_block(Parser* parser) {
     advance(parser); // consume '}'
     return block_node;
 }
+
+typedef struct ASTNode {
+    enum {
+        NODE_ASSIGNMENT,
+        NODE_CALL,
+        NODE_IF,
+        NODE_WHILE,
+        NODE_BLOCK,
+        NODE_IDENTIFIER,
+        NODE_NUMBER,
+        NODE_STRING,
+        NODE_BINARY_EXPR,
+        NODE_NODE_DEF,
+        NODE_EXPORT,
+        NODE_IMPORT,
+        NODE_ERROR_HANDLING
+    } type;
+    union {
+        struct {
+            char identifier[256];
+            struct ASTNode* expression;
+        } assignment;
+        struct {
+            char identifier[256];
+            struct ASTNode* parameters;
+            struct ASTNode* response;
+        } call;
+        struct {
+            struct ASTNode* condition;
+            struct ASTNode* then_branch;
+            struct ASTNode* else_branch;
+        } if_node;
+        struct {
+            struct ASTNode* condition;
+            struct ASTNode* body;
+        } while_node;
+        struct {
+            struct ASTNode* statements[1024];
+            int count;
+        } block;
+        char identifier[256];
+        char string_value[256];
+        int number_value;
+        struct {
+            struct ASTNode* left;
+            struct ASTNode* right;
+            char operator;
+        } binary;
+        struct {
+            char name[256];
+            struct ASTNode* input;
+            struct ASTNode* output;
+            struct ASTNode* process;
+        } node_def;
+        struct {
+            char identifier[256];
+            char metadata[256];
+        } export_node;
+        struct {
+            char identifier[256];
+        } import_node;
+        struct {
+            char identifier[256];
+            struct ASTNode* action;
+        } error_handling;
+    };
+} ASTNode;
+
+ASTNode* parse_statement(Token** tokens, int* pos);
+ASTNode* parse_expression(Token** tokens, int* pos);
+
+// Example of parsing logic for assignment
+ASTNode* parse_assignment(Token** tokens, int* pos) {
+    ASTNode* node = malloc(sizeof(ASTNode));
+    node->type = NODE_ASSIGNMENT;
+
+    if (tokens[*pos]->type == TOKEN_IDENTIFIER) {
+        strcpy(node->assignment.identifier, tokens[*pos]->value);
+        (*pos)++;
+    }
+
+    if (tokens[*pos]->type == TOKEN_OPERATOR && strcmp(tokens[*pos]->value, ":=") == 0) {
+        (*pos)++;
+    }
+
+    node->assignment.expression = parse_expression(tokens, pos);
+
+    if (tokens[*pos]->type == TOKEN_SEMICOLON) {
+        (*pos)++;
+    }
+
+    return node;
+}
+
+// Implement parse_expression and other parsing functions...
