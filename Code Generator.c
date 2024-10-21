@@ -134,3 +134,14 @@ void generate_code(ASTNode* node) {
             break;
     }
 }
+
+void generate_code(ASTNode* node) {
+    switch (node->type) {
+        case NODE_ASSIGNMENT:
+            printf("%s = ", node->assignment.identifier);
+            generate_code(node->assignment.expression);
+            printf(";\n");
+            break;
+        case NODE_CALL:
+            printf("call %s {\n", node->call.identifier);
+            generate_code(node->
