@@ -13,7 +13,7 @@ Here’s a complete overview of **Universal NodeScript**, encapsulating its synt
 Universal NodeScript operates on a **node-based architecture** where each node represents a functional unit of code. This modular design promotes reusability and clarity, allowing developers to create intricate systems with ease.
 
 **Node Declaration:**
-plaintext
+
 node $NodeName* { 
     input: $InputParameters* 
     output: $OutputParameters* 
@@ -22,7 +22,7 @@ node $NodeName* {
 
 
 **Example:**
-plaintext
+
 node $CalculateAverage* { 
     input: $value1, $value2, $value3* 
     output: $average* 
@@ -35,31 +35,31 @@ node $CalculateAverage* {
 Universal NodeScript provides a framework for managing dynamic processes efficiently, including custom algorithm generation, data exporting, and packetizing data.
 
 - **Generate Custom Algorithms:**
-plaintext
+
 generate $CustomAlgorithm* { 
     on-trigger: $EventNode* 
 }
 
 
 - **Exporting Data:**
-plaintext
+
 export $Data* as $FileType* with $Metadata*;
 
 
 - **Packetizing Data:**
-plaintext
+
 packetize $Data* { 
     chain: $DataChunk1, $DataChunk2* 
 }
 
 
 - **Checkpoints:**
-plaintext
+
 checkpoint $State* at $Node*;
 
 
 - **Linking Data:**
-plaintext
+
 link $String* { 
     connect: $String1, $String2* 
 }
@@ -78,7 +78,7 @@ Universal NodeScript introduces **Parabolic Enveloping**, allowing code structur
 - **Helixical Threads:** Advanced multi-threading approach that enhances efficiency in recursive and concurrent operations.
 
 **Example of Dual-Branching:**
-plaintext
+
 # Begin process with dual-branching
 $initialize$ > Start (path 1) OR (path 2) :IS: ON #
 
@@ -101,7 +101,7 @@ Designed for storytelling, Universal NodeScript incorporates narrative elements 
 - :RESOLVE: Conclude a narrative arc.
 
 **Example of Narrative Progression:**
-plaintext
+
 # Begin narrative progression
 :BUILD: > Introduce character conflict #
 
@@ -120,7 +120,7 @@ plaintext
 Universal NodeScript employs a unique recursive-functional approach combined with trinary logic to handle complex decision-making processes.
 
 #### **Recursive Syntax Example:**
-plaintext
+
 # Recursive function to calculate factorial
 function factorial($n$)
 {
@@ -136,7 +136,7 @@ Utilizes three states:
 3. **Neutral (0.5):** Uncertainty in condition.
 
 **Trinary Example:**
-plaintext
+
 # Check if variable $x$ is trinary
 $x :IS NEUTRAL: [0.5] #
 
@@ -146,7 +146,7 @@ $x :IS NEUTRAL: [0.5] #
 Universal NodeScript provides a robust framework for condition checking, allowing for detailed evaluations of variables and states.
 
 **Condition Check Syntax:**
-plaintext
+
 check $variable :IS: $condition* 1-1
 check $variable :IS NOT: $condition* 1-2
 check $variable :IS BOTH: $condition1, $condition2* 1-3
@@ -175,7 +175,7 @@ check :OFF: $inactiveState* 1-21
 Universal NodeScript features automatic error scanning and management, ensuring clean and efficient code execution.
 
 **Error Scanning:**
-plaintext
+
 scan $Node* for errors* {
     if $error found* {
         label: $errorType*; 
@@ -186,7 +186,7 @@ scan $Node* for errors* {
 
 
 **Garbage Transformation:**
-plaintext
+
 transform $garbage* { 
     if $residuals present* {
         clean: $residuals* 
@@ -199,12 +199,12 @@ transform $garbage* {
 Universal NodeScript incorporates advanced memory allocation and data processing techniques, ensuring optimized performance.
 
 - **Memory Allocation:**
-plaintext
+
 allocate memory $node* using RPIP*;
 
 
 - **Data Processing:**
-plaintext
+
 process $data* through V3PP*;
 
 
@@ -213,12 +213,12 @@ process $data* through V3PP*;
 The language supports advanced compilation techniques and secure data encryption methods.
 
 **Compilation:**
-plaintext
+
 compile $code* using M.I.C.I.*, D.C.A.*, P.P.D.I.*;
 
 
 **Encryption:**
-plaintext
+
 encrypt $data* using A.T.P.C.* {
     apply: $metaSalting*, $rotatedKeys*, $hyperHashing*; 
     validate: $checksAndBalances*; 
@@ -230,12 +230,12 @@ encrypt $data* using A.T.P.C.* {
 Universal NodeScript provides mechanisms for managing ownership and handling transactions efficiently.
 
 **Ownership Management:**
-plaintext
+
 manage ownership $event* through $parabolicPolarization*;
 
 
 **Transaction Handling:**
-plaintext
+
 cashout $transaction*;
 
 
@@ -252,14 +252,14 @@ cashout $transaction*;
 Universal NodeScript provides a robust framework for condition checking, allowing for detailed evaluations of variables and states. These checks can enhance the control flow and decision-making processes within the code.
 
 **Condition Check Syntax:**
-```plaintext
+```
 check $variable :IS: $condition*;     # Checks if variable meets a condition
 check $variable :IS NOT: $condition*; # Checks if variable does not meet a condition
 check $variable :IS BOTH: $condition1 AND $condition2*; # Checks if both conditions are satisfied
 ```
 
 #### **Example of Condition Checks:**
-```plaintext
+```
 # Define a variable
 $score := 85 #
 
@@ -278,14 +278,14 @@ check $score :IS BOTH: [>= 60] AND [>= 90] ; # False (0)
 Universal NodeScript supports modular libraries, allowing developers to integrate existing libraries or create their own. This feature promotes code sharing and enhances functionality without redundancy.
 
 **Library Declaration:**
-```plaintext
+```
 library $LibraryName* { 
     include: $Module1, $Module2* 
 }
 ```
 
 **Example of Library Usage:**
-```plaintext
+```
 library $MathLibrary* { 
     include: $CalculateAverage, $CalculateSum* 
 }
@@ -300,7 +300,7 @@ $sum := $MathLibrary.CalculateSum($value1, $value2); #
 Robust error handling is essential in Universal NodeScript, enabling developers to catch exceptions and manage unexpected behaviors smoothly.
 
 #### **Error Handling Syntax:**
-```plaintext
+```
 try { 
     $RiskyOperation*; 
 } catch { 
@@ -309,7 +309,7 @@ try {
 ```
 
 **Example of Error Handling:**
-```plaintext
+```
 try { 
     $result := divide($numerator, $denominator); 
 } catch { 
@@ -322,14 +322,14 @@ try {
 Universal NodeScript includes features for managing asynchronous operations, allowing for non-blocking execution and better performance in interactive applications.
 
 #### **Asynchronous Syntax:**
-```plaintext
+```
 async $OperationName* { 
     process: $Logic*; 
 } 
 ```
 
 **Example of Asynchronous Functionality:**
-```plaintext
+```
 async fetchData { 
     process: $data := fetchFromAPI($url); 
 }
@@ -343,12 +343,12 @@ fetchData; # Initiates fetching without blocking further execution
 Universal NodeScript provides tools for visualizing data structures and formatting outputs for enhanced readability. This feature is crucial for debugging and presenting information clearly.
 
 #### **Output Formatting Syntax:**
-```plaintext
+```
 format $Output* as $FormatType*; 
 ```
 
 **Example of Output Formatting:**
-```plaintext
+```
 $output := format($data) as JSON; 
 ```
 
@@ -456,7 +456,7 @@ Universal NodeScript (UNS) is a cutting-edge programming language designed to re
 UNS syntax is intuitive and designed for flexibility, allowing for a wide range of operations and evaluations. The following syntax elements illustrate the capabilities of the language:
 
 #### **Node Declaration**
-plaintext
+
 node $NodeName* { 
  input: $InputParameters* 
  output: $OutputParameters* 
@@ -465,7 +465,7 @@ node $NodeName* {
 
 
 #### **Call-Response Structure**
-plaintext
+
 call $NodeA* { 
  parameters: $param1, $param2* 
 } response { 
@@ -475,7 +475,7 @@ call $NodeA* {
 
 #### **Condition Checks**
 Condition checks allow for dynamic evaluations of states and inputs:
-plaintext
+
 check $variable :IS: $condition* 1-1
 check $variable :IS NOT: $condition* 1-2
 check $variable :IS BOTH: $condition1, $condition2* 1-3
@@ -636,7 +636,7 @@ To implement Universal NodeScript (UNS) using the structures provided in the **M
 ### **Examples of Universal NodeScript Syntax**
 
 #### **Node Declaration**
-```plaintext
+```
 node $ProcessTransaction* {
     input: $amount, $user* 
     output: $transactionID* 
@@ -645,7 +645,7 @@ node $ProcessTransaction* {
 ```
 
 #### **Error Handling Example**
-```plaintext
+```
 try {
     $result := performSensitiveOperation(); 
 } catch {
@@ -655,7 +655,7 @@ try {
 ```
 
 #### **Progressive Learning Example**
-```plaintext
+```
 node $ExpandKnowledge* {
     input: $newConcept* 
     process: addNode($newConcept) > updateHierarchy() #
