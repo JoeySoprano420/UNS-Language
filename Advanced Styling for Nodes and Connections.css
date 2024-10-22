@@ -1,0 +1,46 @@
+<style>
+    body {
+        background: linear-gradient(to right, #74ebd5, #acb6e5);
+        font-family: 'Arial', sans-serif;
+    }
+
+    .node {
+        border: 2px solid #4A90E2;
+        padding: 15px;
+        margin: 10px;
+        display: inline-block;
+        cursor: pointer;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transition: transform 0.2s;
+    }
+
+    .node:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+    }
+
+    .connection {
+        stroke: #4A90E2;
+        stroke-width: 3;
+        transition: stroke-width 0.2s;
+    }
+
+    .connection:hover {
+        stroke-width: 5;
+    }
+
+    .form-input {
+        margin: 5px;
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        width: calc(100% - 12px);
+    }
+
+    #error-message {
+        font-weight: bold;
+        color: red;
+    }
+</style>
