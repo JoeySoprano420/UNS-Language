@@ -40,3 +40,42 @@
     </script>
 </body>
 </html>
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>C to Python Converter</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        textarea { width: 100%; height: 200px; }
+        button { margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <h1>C to Python Converter</h1>
+    <textarea id="cCode" placeholder="Enter your C code here..."></textarea>
+    <button onclick="convertCode()">Convert</button>
+    <h2>Converted Python Code:</h2>
+    <pre id="pythonCode"></pre>
+
+    <script>
+        function convertCode() {
+            const cCode = document.getElementById('cCode').value;
+            fetch('/process_node', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ code: cCode })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('pythonCode').innerText = data.python_code || data.error;
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>
